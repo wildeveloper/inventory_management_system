@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
@@ -87,4 +88,6 @@ Route::post('/orders', [OrderController::class, 'store']);
 Route::put('/orders', [OrderController::class, 'update']);
 Route::delete('/orders/{id}', [OrderController::class, 'delete']);
 
+
+Route::post('/login', [AuthController::class, 'login']);
 
