@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
@@ -19,34 +20,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [DashboardController::class, 'index']);
+Route::middleware(['loggedin'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
 
-Route::get('/brands', function () {
-    return view('brands');
+    Route::get('/brands', function () {
+        return view('brands');
+    });
+    Route::get('/category', function () {
+        return view('category');
+    });
+    Route::get('/stores', function () {
+        return view('stores');
+    });
+
+    Route::get('/attributes', function () {
+        return view('attributes');
+    });
+
+    Route::get('/attribute-values/{id}', function () {
+        return view('attribute-values');
+    });
+
+    Route::get('/attribute-values/{id}', [AttributeValueController::class, 'index']);
+
+    Route::get('/products', [ProductContoller::class, 'index']);
+
+    Route::get('/company', [CompanyController::class, 'index']);
+
+    Route::get('/users', function () {
+        return view('users');
+    });
+
+    Route::get('/orders', [OrderController::class, 'index']);
+
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
-Route::get('/category', function () {
-    return view('category');
+
+Route::middleware(['loggedout'])->group(function () {
+    Route::get('/login', [AuthController::class, 'index']);
 });
-Route::get('/stores', function () {
-    return view('stores');
-});
-
-Route::get('/attributes', function () {
-    return view('attributes');
-});
-
-Route::get('/attribute-values/{id}', function () {
-    return view('attribute-values');
-});
-
-Route::get('/attribute-values/{id}', [AttributeValueController::class, 'index']);
-
-Route::get('/products', [ProductContoller::class, 'index']);
-
-Route::get('/company', [CompanyController::class, 'index']);
-
-Route::get('/users', function () {
-    return view('users');
-});
-
-Route::get('/orders', [OrderController::class, 'index']);
